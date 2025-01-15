@@ -9,16 +9,57 @@
 #endif
 
 // Define veriables that Aux will use in code.
-#define statusLedPin 1
+#define statusLedPin 2
+#define relayPin 3
+
+bool readOnlyMode = false;
+
+//WebPages webpages;
 
 const char* ssid = STASSID;
 const char* password = STAPSK;
 
-ESP8266WebServer server(80);
+static ESP8266WebServer server(80);
 
 // When the webpage link is "/" AKA the root of the domain then dispay this text.
 void mainWebPage() {
-  server.send(200, "text/plain", "hello from esp8266!\r\n");
+
+  StreamString temp;
+  temp.reserve(500);  // Preallocate a large chunk to avoid memory fragmentation
+  temp.printf("\
+<html>\
+  <head>\
+    <meta http-equiv='refresh' content='5'/>\
+    <title>Aux Relay Switch</title>\
+    <style>\
+      body { background-color: Black; font-family: Arial, Helvetica, Sans-Serif; Color: #000088; }\
+    </style>\
+  </head>\
+  <body>\
+    <h1>Aux Relay Switch</h1>\
+    <p>Mode(Switch/Read): </p>\
+    <p>Status:</p>\
+    <a>Turn ON</a>\
+    <a>Turn OFF</a>\
+  </body>\
+</html>");
+  server.send(200, "text/html", temp.c_str());
+
+  //server.send(200, "text/plain", "hello from esp8266!\r\n");
+}
+
+void onWebPage() {
+
+  if(readOnlyMode) {
+  digitalWrite(relayPin, 0);
+  } else {
+  digitalWrite(relayPin, 1);
+  }
+}
+
+void offWebPage() {
+
+  digitalWrite(relayPin, 0);
 }
 
 // Respond 404 if a page is not found.
@@ -45,7 +86,10 @@ void setup(void) {
 
   // Setup Pinmodes for the chip.
   pinMode(statusLedPin, OUTPUT);
-  digitalWrite(statusLedPin, 0);
+  pinMode(relayPin, OUTPUT);
+
+  digitalWrite(statusLedPin, 1);
+  digitalWrite(relayPin, 0);
 
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
@@ -53,10 +97,10 @@ void setup(void) {
   // Wait for connection. Print via serial untill recived.
   Serial.println("Connecting to network.");
   while (WiFi.status() != WL_CONNECTED) {
-    digitalWrite(statusLedPin, 1);
+    digitalWrite(statusLedPin, 0);
     delay(500);
     Serial.print(".");
-    digitalWrite(statusLedPin, 0);
+    digitalWrite(statusLedPin, 1);
   }
 
   Serial.println("");
@@ -73,11 +117,11 @@ void setup(void) {
 
   server.on("/off", offWebPage);
 
-  server.on("/read", offWebPage);
+  //server.on("/read", offWebPage);
 
-  server.on("/modeswitch", modeSwitchWebPage);
+  //server.on("/modeswitch", modeSwitchWebPage);
 
-  server.on("/moderead", modeReadWebPage);
+  //server.on("/moderead", modeReadWebPage);
 
 
   server.onNotFound(handleNotFound);
