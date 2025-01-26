@@ -4,8 +4,8 @@
 #include <ESP8266mDNS.h>
 
 #ifndef STASSID
-#define STASSID "Lewington2.4"
-#define STAPSK "GIVEMEINTERNETNOW666"
+#define STASSID "username"
+#define STAPSK "password"
 #endif
 
 // Define veriables that Aux will use in code.
