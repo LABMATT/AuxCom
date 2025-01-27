@@ -1,5 +1,8 @@
 package space.labmatt.DeviceMethods;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -27,23 +30,23 @@ public class DeviceConnection implements Runnable {
             System.out.println("Socket Connection: " + socket);
             connectionTrigger.setActiveConnection(false);
 
-
-
-            /*
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            socket.getOutputStream().write('y');
 
             String bytein = "";
             boolean run = true;
             while ((bytein = bufferedReader.readLine()) != null) {
 
+                System.out.println(bytein);
 
             }
-            */
+            socket.getOutputStream().write('r');
 
         } catch (Exception e) {
 
-            System.out.println("Exception" + e);
+            System.out.println("Exception" + e.getMessage());
         }
 
         connectionTrigger.setActiveConnection(false);
