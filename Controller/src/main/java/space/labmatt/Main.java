@@ -32,11 +32,18 @@ public class Main {
             serverSocketException = e.getMessage();
         }
 
+        if (serverSocket == null) {
+
+            // If the server socket is not bound then quit the program and print an error message.
+            System.out.println("Failed to create socket. Null serversocket: " + serverSocketException);
+            System.exit(0);
+        }
+
         if (!serverSocket.isBound()) {
 
             // If the server socket is not bound then quit the program and print an error message.
             System.out.println("Failed to bind to server socket: " + serverSocketException);
-            System.out.close();
+            System.exit(0);
         }
 
         ConnectionTrigger connectionTrigger = new ConnectionTrigger();
