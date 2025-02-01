@@ -33,15 +33,21 @@ public class DeviceConnection implements Runnable {
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            socket.getOutputStream().write('y');
+            // Ask device to send its info such as ID, Type, Version.
+            out.println("info;");
+boolean running = true;
+            while (running) {
+                System.out.println(socket.getInputStream().read());
+            }
 
+            /*
             String bytein = "";
-            boolean run = true;
-            while ((bytein = bufferedReader.readLine()) != null) {
+            while ((bytein = bufferedReader.readLine()) != null && bufferedReader.) {
 
                 System.out.println(bytein);
-
             }
+
+             */
             socket.getOutputStream().write('r');
 
         } catch (Exception e) {
