@@ -47,15 +47,18 @@ public class Main {
         }
 
         ConnectionTrigger connectionTrigger = new ConnectionTrigger();
+        int threadID = 1;
         while (running) {
 
             // If there are no curly active connections then open another thread for port.
             if (!connectionTrigger.isActiveConnection()) {
 
                 connectionTrigger.setActiveConnection(true);
-                DeviceConnection deviceConnection = new DeviceConnection(serverSocket, connectionTrigger);
-                Thread thread = new Thread(deviceConnection);
+                DeviceConnection deviceConnections = new DeviceConnection(serverSocket, connectionTrigger);
+                Thread thread = new Thread(deviceConnections);
+                thread.setName("TH-" + threadID);
                 thread.start();
+                threadID++;
             }
         }
 
