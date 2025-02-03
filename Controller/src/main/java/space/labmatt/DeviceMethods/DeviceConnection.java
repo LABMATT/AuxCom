@@ -65,9 +65,8 @@ public class DeviceConnection implements Runnable {
             // If the reading is timed out then produce this message.
             if (!messageRecived) {
 
-                System.out.println(threadName + "Timeout getting device info. Device: " + socket.getInetAddress());
-                socket.getOutputStream().write('S');
                 socket.close();
+                throw new Exception("Timeout getting device info. Device: " + socket.getInetAddress());
 
             } else {
 

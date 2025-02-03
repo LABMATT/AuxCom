@@ -6,7 +6,8 @@ import java.util.List;
 public class Device {
 
     public List<String> runninglog = new ArrayList<>();
-    public String deviceType = "";
+    public int deviceType = 0;
+    public int softwareVersion = 0;
     public int deviceID = 0;
 
 }
