@@ -8,9 +8,6 @@ import java.util.List;
 
 public class DeviceConnection implements Runnable {
 
-    public String deviceName = "";
-    public int deviceID = 0;
-    public Socket deviceSocket = null;
     public ServerSocket serverSocket = null;
     private ConnectionTrigger connectionTrigger;
     public Device device = null;
@@ -26,10 +23,11 @@ public class DeviceConnection implements Runnable {
 
         String threadName = Thread.currentThread().getName() + ": ";
         System.out.println(threadName + "Awaiting connection.");
+        Socket socket = null;
 
         try {
 
-            Socket socket = serverSocket.accept();
+            socket = serverSocket.accept();
             System.out.println(threadName + "Socket Connection: " + socket);
             connectionTrigger.setActiveConnection(false);
 
@@ -78,6 +76,12 @@ public class DeviceConnection implements Runnable {
             DecodeInfo decodeInfo = new DecodeInfo();
             device = decodeInfo.decodeIno(recivedInfoBytes);
 
+            switch (device.deviceTypeString) {
+                case "relay":
+                    break;
+                case "input":
+                    break;
+            }
 
 
             // Finsih connection.

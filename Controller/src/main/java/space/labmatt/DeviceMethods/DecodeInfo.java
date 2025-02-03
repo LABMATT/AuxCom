@@ -23,6 +23,7 @@ public class DecodeInfo {
     public Device decodeIno(List<Integer> deviceInfoBytes) throws Exception {
         Device device = new Device();
 
+        // If there are not enough bytes for this to be a header than throw an exception.
         if (deviceInfoBytes.size() < 14)
         {
             throw new Exception("Malformed Header. Not enough bytes");
@@ -40,8 +41,8 @@ public class DecodeInfo {
         int digit8 = assciToInt(deviceInfoBytes.get(7));
         device.softwareVersion = digit5 + digit6 + digit7 + digit8;
 
-        int digit9 = assciToInt(deviceInfoBytes.get(8)) *   1000000;
-        int digit10 = assciToInt(deviceInfoBytes.get(9)) *  100000;
+        int digit9 = assciToInt(deviceInfoBytes.get(8))   * 1000000;
+        int digit10 = assciToInt(deviceInfoBytes.get(9))  * 100000;
         int digit11 = assciToInt(deviceInfoBytes.get(10)) * 10000;
         int digit12 = assciToInt(deviceInfoBytes.get(11)) * 1000;
         int digit13 = assciToInt(deviceInfoBytes.get(12)) * 100;
@@ -55,11 +56,12 @@ public class DecodeInfo {
             throw new Exception("Malformed Header. Terminating charter incorrect.");
         }
 
+        device.deviceTypeInterprate();
+
         System.out.println("Device type: " + device.deviceType);
         System.out.println("Device soft: " + device.softwareVersion);
-        System.out.println("Device ID  : " + device.deviceID);
+        System.out.println("Device ID  : " + device.deviceID + " AKA " + device.deviceTypeString);
 
-        //throw new Exception("Malformed Header info.");
         return device;
     }
 

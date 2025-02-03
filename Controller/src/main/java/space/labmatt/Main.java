@@ -27,6 +27,7 @@ public class Main {
         try {
 
             serverSocket = new ServerSocket(8080);
+
         } catch (IOException e) {
 
             serverSocketException = e.getMessage();
@@ -45,6 +46,7 @@ public class Main {
             System.out.println("Failed to bind to server socket: " + serverSocketException);
             System.exit(0);
         }
+
 
         ConnectionTrigger connectionTrigger = new ConnectionTrigger();
         int threadID = 1;
