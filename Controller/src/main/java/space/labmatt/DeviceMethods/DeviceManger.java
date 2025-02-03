@@ -33,7 +33,7 @@ public class DeviceManger {
      * If the device has already been added in the past, then add it to the active device list.
      * @param device device can be added to the device list if not already in it. Other wisde is used to mark the device as online
      */
-    public synchronized addDevice(Device device) {
+    public synchronized void addDevice(Device device) {
 
         if (deviceList.containsKey(device.deviceID)) {
 
