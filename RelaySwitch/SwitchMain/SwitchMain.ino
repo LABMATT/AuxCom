@@ -81,7 +81,7 @@ void loop() {
 
   // Read all the lines of the reply from server and print them to Serial
   Serial.println("receiving from remote server");
-  // not testing 'client.connected()' since we do not need to send data here
+  // not testing 'client.connected()' since we d o not need to send data here
   while (client.available()) {
     char ch = static_cast<char>(client.read());
     Serial.print(ch);
