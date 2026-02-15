@@ -22,10 +22,14 @@ const uint16_t port = 8080;
 const long deviceID = 0;
 
 void setup() {
+
+  // Serial for debugging
   Serial.begin(115200);
 
-  // We start by connecting to a WiFi network
+  // Pinsetup
+  pinMode(LED_BUILTIN, OUTPUT);
 
+  // We start by connecting to a WiFi network
   Serial.println();
   Serial.println();
   Serial.print("Connecting to ");
@@ -38,9 +42,14 @@ void setup() {
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
+
+    // If wifi is not connected then wait and flash led.
     Serial.print(".");
-  }
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(150);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(150);
+    }
 
   Serial.println("");
   Serial.println("WiFi connected");
@@ -57,12 +66,32 @@ void loop() {
   Serial.println(port);
 
   // Use WiFiClient class to create TCP connections
+<<<<<<< Updated upstream
   WiFiClient client;
+=======
+  /*
+>>>>>>> Stashed changes
   if (!client.connect(host, port)) {
     Serial.println("connection failed");
     delay(5000);
     return;
+<<<<<<< Updated upstream
   }
+=======
+  }*/
+
+  while(!client.connect(host, port)) {
+
+    // Try connect to a TCP socket, if not flash slower.
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(1000);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(1000);
+  }
+
+  digitalWrite(LED_BUILTIN, LOW);
+}
+>>>>>>> Stashed changes
 
   // This will send a string to the server
   Serial.println("sending data to server");
@@ -92,8 +121,39 @@ void loop() {
   Serial.println("closing connection");
   client.stop();
 
+<<<<<<< Updated upstream
   if (wait) {
     delay(300000);  // execute once every 5 minutes, don't flood remote service
   }
   wait = true;
+=======
+// If the char we recived was 'I' Then we should send the info header.
+void infoRequest(char inChar) {
+
+  if(inChar == 'I')
+  {
+    // If the inchar is I the device is requesting infomation about the device.
+    client.print(deviceType);
+    client.print(deviceSoftwareVersion);
+    client.print(deviceIdentifcationl);
+    client.print(';');
+  }
+
+  if (inChar == 'O')
+  {
+    // If inChar is O then turn relay on.
+
+  }
+
+  if (inChar == 'F') {
+    // If inChar is F then turn relay off.
+
+  }
+
+  if (inChar == 'S') 
+  {
+    // If inChar is S. 
+
+  }
+>>>>>>> Stashed changes
 }
