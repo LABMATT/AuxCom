@@ -1,0 +1,14 @@
+body {
+
+    background-color: black;
+
+    margin: 0;
+    height: 100svh;
+    width: 100svw;
+
+    overflow: hidden;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 15fr 1fr;
+}
